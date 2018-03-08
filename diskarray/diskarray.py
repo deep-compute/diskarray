@@ -10,7 +10,6 @@ class DiskArray(object):
 
     def __init__(self, fpath, shape, dtype, mode='r+',
         capacity=None, growby=GROWBY, log=DUMMY_LOG):
-        #import pdb; pdb.set_trace()
 
         self._fpath = fpath
         self._shape = shape
@@ -110,7 +109,7 @@ class DiskArray(object):
             diff = len(v) - remaining_capacity
             self._capacity_shape = self._incr_shape(self._capacity_shape, diff)
             self._update_ndarray()
-        #import pdb;pdb.set_trace()
+
         self.data[nrows:nrows+len(v)] = v
         self._shape = self._incr_shape(self._shape, len(v))
 
