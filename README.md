@@ -17,16 +17,16 @@ $ sudo pip install diskarray
 ## Quick Example
 
 ```python
-import numpy as np
-from diskarray import DiskArray
+>>> import numpy as np
+>>> from diskarray import DiskArray
 
-data = np.array([[2 , 3, 4], [1, 2, 3]])
+>>> data = np.array([[2 , 3, 4], [1, 2, 3]])
 
-da = DiskArray('/tmp/disk.array', shape=(0, 3), dtype=np.float32)
+>>> da = DiskArray('/tmp/disk.array', shape=(0, 3), dtype=np.float32)
 
-da.extend(data)
+>>> da.extend(data)
 
-print(da[:])
+>>> print(da[:])
 ```
 
 ## Usage
