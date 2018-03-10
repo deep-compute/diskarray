@@ -13,7 +13,6 @@ setup(
     license='MIT License',
     install_requires=[
         'numpy==1.13.1',
-        'deeputil==0.2',
         'basescript==0.2.1'
     ],
     package_dir={'diskarray': 'diskarray'},

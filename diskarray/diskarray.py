@@ -1,23 +1,17 @@
 import os
 import sys
 from functools import reduce
+from logging import Logger
 
 import numpy as np
 
 from .exception import AppendNotSupported
 
-if (sys.version_info > (3, 0)):
-    from deeputil import Dummy
-    DUMMY_LOG = Dummy()
-else:
-    from logging import Logger
-    DUMMY_LOG = Logger
-
 class DiskArray(object):
     GROWBY = 10000
 
-    def __init__(self, fpath, shape, dtype, mode='r+',
-        capacity=None, growby=GROWBY, log=DUMMY_LOG):
+    def __init__(self, fpath, dtype, mode='r+', shape=None,
+        capacity=None, growby=GROWBY, log=Logger):
         '''
         >>> import numpy as np
         >>> da = DiskArray('/tmp/test.array', shape=(0, 3), dtype=np.float32)
