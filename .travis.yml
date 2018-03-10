@@ -1,0 +1,24 @@
+language: python
+python:
+- '2.7'
+install:
+- pip install .
+script:
+- python setup.py test
+deploy:
+- provider: releases
+  api_key:
+    secure: KuV+GjVaFNKvhpI3rgBjolmdhtRWbnJSOgy2iDT4+GQMEz+ypXF3XGR8Opx8NDDeFoBzRxcLcfqRo0Og/i06n5IZ/GcqppErJxYGb984qAJVymukm7pUO4+tls10pDrzZH0+4tTp3SNHukUlcUFjk/+bCTrD67uCZsQGCob3aflLBNx+uL+q3TinF/gbLKdf6wLQqVzkye//ZC20zjZWLRQpyQPRAH1CgGKtRETo5BgSq9w4LbGZd0pGc3S3b33wf3MVzfVlepuXHtwEpviXlXYImRX8/giw6SIx/EJN5IZFkeyGFBetdPsN6dCcOiWAlaFAlrsUSb/YtlrNWZOizkUpmzlAmPTgpl/rW1kS2UUxjLMV1w3oaBt8bhRhX97C0SI0gO2cMWO4E2NIqUFG+rz7Y9VBb/ZpWTlaT5odU+paIBYT0ii6m79YYVu53ajyB6e26zN1Mw12fmRlzBTWsZopxVa22P1+zuIEqtN9meMu5KKONuQ7FL3iNphA8RGguj9X6NKVy4PbbO/25fGScy1oTxsAVCDsiq9x3M+tFg8+9g1fJJ1Ry30wq2cqe1L9o3AaEcuoIvBhf2cIj2ZO1NQAFr9/pkr7t4w/HfJsrRGmlK4hLFkNwZUPdufIS/1s/66lHIiaXacM069xz47zpuxNftjjF3DoZX5Ge/wjKn8=
+  name: diskarray-0.1.1
+  tag_name: 0.1.1
+  on:
+    repo: deep-compute/diskarray
+- provider: pypi
+  distributions: "sdist bdist_wheel"
+  server: https://upload.pypi.org/legacy/
+  user: deepcompute
+  password:
+    secure: "XScKeAhmF7gGThEjJCtur1RHlGUZ2n3FXukp7619YHmLoUzvszo8Wg+ZSJrdl3soEuSvVQdn2G3ngxAZdKmNhWVYrUKRdKL5iY4WyYHVujkOq+diVqCGHWbSmZJupyscgt1L/H8l+IohC1dnng/ThQuFp7Jbay68lM8LzS20f16JgSL6Xq+jRqqtBU3jALoqf9scnwuXG+Yj51YTQ9DmS37ctlLyzg3GEbICQB1dNaSZ3HtM1LB0/69++rhukzicm1Z9FcNEbdL9U7ohAgrI1+0mj/4xtURIrOwvlKjhjXUxf5S2RMe49xFq4KDRkXL8uwUEvRnskwXH6u0+mkAQRpMYFMygxcmiVhuhhelJD43RuO56o84IWQLAwje/RUeH1huePUNBV63tAXQC1uQ4yoaZs/DehtjDjgIkk/j4xdTnlwaN68icGrnWxZ5QCwZkz16OQ84HolTLGG9X1Fuqs7iYGI9GmBYfSG6FVp6H6E1Cakvc492gAVqIJKln6Y5u8a1SPpHp2jhhqzsMQo/fwqDTc8m59ENX1zxcIgtJjaWrgkJ4U+W4GBosKpevTJCLKzpirsfJ2Al/7E7rTEOpXpw3NNeeyben708/RiPbWVvhE6yZ7Z6XHYzIO+fF9gr0pRiqdL3uL3ASCUlNEBvw5j7adH57foeTf8mZkQqLyrU="
+  on:
+    tags: true
+    branch: master

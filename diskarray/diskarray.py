@@ -1,15 +1,23 @@
 import os
+import sys
+from functools import reduce
+from logging import Logger
 
 import numpy as np
-from deeputil import Dummy
 
-DUMMY_LOG = Dummy()
+from .exception import AppendNotSupported
 
 class DiskArray(object):
     GROWBY = 10000
 
-    def __init__(self, fpath, shape, dtype, mode='r+',
-        capacity=None, growby=GROWBY, log=DUMMY_LOG):
+    def __init__(self, fpath, dtype, mode='r+', shape=None,
+        capacity=None, growby=GROWBY, log=Logger):
+        '''
+        >>> import numpy as np
+        >>> da = DiskArray('/tmp/test.array', shape=(0, 3), dtype=np.float32)
+        >>> print(da[:])
+        []
+        '''
 
         self._fpath = fpath
         self._shape = shape
@@ -41,13 +49,13 @@ class DiskArray(object):
         self.data.flush()
         self._truncate_if_needed()
 
-    def _shape_bytes(self, shape):
+    def _shape_bytes(self, shape, dtype_bytes):
         return reduce((lambda x, y: x * y), shape) * dtype_bytes
 
     def _truncate_if_needed(self):
         fd = os.open(self._fpath, os.O_RDWR|os.O_CREAT)
         dtype_bytes = np.dtype(self._dtype).itemsize
-        nbytes = self._shape_bytes(self._shape)
+        nbytes = self._shape_bytes(self._shape, dtype_bytes)
         os.ftruncate(fd, nbytes)
         self._create_ndarray()
 
@@ -78,6 +86,19 @@ class DiskArray(object):
         return tuple(_s)
 
     def append(self, v):
+        '''
+        >>> import numpy as np
+        >>> da = DiskArray('/tmp/test.array', shape=(0, 3), growby=3, dtype=np.float32)
+        >>> print(da[:])
+        []
+        >>> data = np.array([[2,3,4], [1, 2, 3]])
+        >>> da.append(data[0])
+        >>> print(da[:])
+        [[ 2.  3.  4.]
+         [ 0.  0.  0.]
+         [ 0.  0.  0.]]
+        '''
+
         # FIXME: for now we only support
         # append along axis 0 and only
         # for 1d and 2d arrays
@@ -101,6 +122,36 @@ class DiskArray(object):
         self._shape = self._incr_shape(self._shape, 1)
 
     def extend(self, v):
+        '''
+        >>> import numpy as np
+        >>> da = DiskArray('/tmp/test.array', shape=(0, 3), capacity=(10, 3), dtype=np.float32)
+        >>> print(da[:])
+	[[ 2.  3.  4.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]]
+        >>> data = np.array([[2,3,4], [1, 2, 3]])
+        >>> da.extend(data)
+        >>> print(da[:])
+	[[ 2.  3.  4.]
+	 [ 1.  2.  3.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]
+	 [ 0.  0.  0.]]
+        >>> os.remove('/tmp/test.array')
+        '''
+
         nrows = self._shape[0]
         nrows_capacity = self._capacity_shape[0]
         remaining_capacity = nrows_capacity - nrows
