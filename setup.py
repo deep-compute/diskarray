@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
-version = '0.1'
+version = '0.1.1'
 setup(
     name="diskarray",
     version=version,
-    description="A resizable numpy array on disk (mmap based)",
+    description="A resizable and readable numpy array on disk",
     keywords='diskarray',
     author='Deep Compute, LLC',
     author_email="contact@deepcompute.com",
@@ -18,11 +18,10 @@ setup(
     package_dir={'diskarray': 'diskarray'},
     packages=find_packages('.'),
     include_package_data=True,
-    #test_suite='test.suite',
+    test_suite='test.suitefn',
     entry_points={
         "console_scripts": [
-            "diskarray = diskarray",
+            "diskarray = diskarray:main",
         ]
     }
-
 )
