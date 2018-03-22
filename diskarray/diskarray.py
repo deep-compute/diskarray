@@ -57,6 +57,7 @@ class DiskArray(object):
         dtype_bytes = np.dtype(self._dtype).itemsize
         nbytes = self._shape_bytes(self._shape, dtype_bytes)
         os.ftruncate(fd, nbytes)
+        self._capacity_shape = self._shape
         self._create_ndarray()
 
     @property
