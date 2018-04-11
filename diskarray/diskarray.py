@@ -44,6 +44,8 @@ class DiskArray(object):
                         shape=self._capacity_shape,
                         dtype=self._dtype,
                         mode=self._mode)
+        if self._shape is None:
+            self._shape = self.data.shape
 
     def flush(self):
         self.data.flush()
