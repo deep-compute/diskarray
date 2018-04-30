@@ -19,6 +19,19 @@ class DiskArray(object):
         []
         '''
 
+        itemsize = np.dtype(dtype).itemsize
+
+        if not os.path.exists(fpath):
+            open(fpath, 'w').write('\x00' * itemsize) # touch file
+            if not shape:
+                shape = (0,)
+            if not capacity:
+                capacity = (1,)
+
+        if not shape:
+            n = int(os.path.getsize(fpath) / itemsize)
+            shape = (n,)
+
         self._fpath = fpath
         self._shape = shape
         self._capacity_shape = capacity or shape
@@ -26,9 +39,6 @@ class DiskArray(object):
         self._mode = mode
         self._growby = growby
         self.log = log
-
-        if not os.path.exists(fpath):
-            open(fpath, 'w').write('\x00') # touch file
 
         self.data = None
         self._update_ndarray()
