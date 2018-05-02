@@ -9,8 +9,8 @@ deploy:
 - provider: releases
   api_key:
     secure: KuV+GjVaFNKvhpI3rgBjolmdhtRWbnJSOgy2iDT4+GQMEz+ypXF3XGR8Opx8NDDeFoBzRxcLcfqRo0Og/i06n5IZ/GcqppErJxYGb984qAJVymukm7pUO4+tls10pDrzZH0+4tTp3SNHukUlcUFjk/+bCTrD67uCZsQGCob3aflLBNx+uL+q3TinF/gbLKdf6wLQqVzkye//ZC20zjZWLRQpyQPRAH1CgGKtRETo5BgSq9w4LbGZd0pGc3S3b33wf3MVzfVlepuXHtwEpviXlXYImRX8/giw6SIx/EJN5IZFkeyGFBetdPsN6dCcOiWAlaFAlrsUSb/YtlrNWZOizkUpmzlAmPTgpl/rW1kS2UUxjLMV1w3oaBt8bhRhX97C0SI0gO2cMWO4E2NIqUFG+rz7Y9VBb/ZpWTlaT5odU+paIBYT0ii6m79YYVu53ajyB6e26zN1Mw12fmRlzBTWsZopxVa22P1+zuIEqtN9meMu5KKONuQ7FL3iNphA8RGguj9X6NKVy4PbbO/25fGScy1oTxsAVCDsiq9x3M+tFg8+9g1fJJ1Ry30wq2cqe1L9o3AaEcuoIvBhf2cIj2ZO1NQAFr9/pkr7t4w/HfJsrRGmlK4hLFkNwZUPdufIS/1s/66lHIiaXacM069xz47zpuxNftjjF3DoZX5Ge/wjKn8=
-  name: diskarray-0.1.5
-  tag_name: 0.1.5
+  name: diskarray-0.1.6
+  tag_name: 0.1.6
   on:
     repo: deep-compute/diskarray
 - provider: pypi

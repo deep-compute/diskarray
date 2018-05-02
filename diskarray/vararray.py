@@ -1,4 +1,5 @@
 import os
+import shutil
 from logging import Logger
 
 import numpy as np
@@ -14,7 +15,7 @@ class DiskVarArray(object):
         '''
         >>> import numpy as np
         >>> from diskarray import DiskVarArray
-        >>> d = DiskVarArray('/tmp/test', dtype='uint32')
+        >>> d = DiskVarArray('/tmp/test1', dtype='uint32')
         >>> d # doctest:+ELLIPSIS
         <diskarray.vararray.DiskVarArray object at 0x...>
         '''
@@ -45,9 +46,10 @@ class DiskVarArray(object):
     def dtype(self):
         '''
         >>> import numpy as np
-        >>> d = DiskVarArray('/tmp/test', dtype='uint32')
+        >>> d = DiskVarArray('/tmp/test1', dtype='uint32')
         >>> d.dtype
         'uint32'
+        >>> shutil.rmtree('/tmp/test1', ignore_errors=True)
         '''
         return self._dtype
 
@@ -55,19 +57,21 @@ class DiskVarArray(object):
     def dtype_index(self):
         '''
         >>> import numpy as np
-        >>> d = DiskVarArray('/tmp/test', dtype='uint32')
+        >>> d = DiskVarArray('/tmp/test1', dtype='uint32')
         >>> d.dtype_index
         <class 'numpy.uint64'>
+        >>> shutil.rmtree('/tmp/test1', ignore_errors=True)
         '''
         return self._dtype_index
 
     def __getitem__(self, idx):
         '''
         >>> import numpy as np
-        >>> d = DiskVarArray('/tmp/test', dtype='uint32')
+        >>> d = DiskVarArray('/tmp/test1', dtype='uint32')
         >>> d.append([1, 2, 3, 4])
         >>> d.__getitem__(0)
         memmap([1, 2, 3, 4], dtype=uint32)
+        >>> shutil.rmtree('/tmp/test1', ignore_errors=True)
         '''
         sindex = self._index[idx]
 
@@ -86,6 +90,7 @@ class DiskVarArray(object):
         >>> d.append([1, 2, 3, 4])
         >>> d.num_elements
         4
+        >>> shutil.rmtree('/tmp/test1', ignore_errors=True)
         '''
         return len(self._data)
 
@@ -100,6 +105,7 @@ class DiskVarArray(object):
         >>> d.append([5, 6, 7, 8])
         >>> d.num_lists
         2
+        >>> shutil.rmtree('/tmp/test2', ignore_errors=True)
         '''
         return len(self._index)
 
@@ -112,6 +118,7 @@ class DiskVarArray(object):
         >>> d.append([5, 6, 7, 8])
         >>> d.__getitem__(1)
         memmap([5, 6, 7, 8], dtype=uint32)
+        >>> shutil.rmtree('/tmp/test3', ignore_errors=True)
         '''
         self._index.append(len(self._data))
         self._data.extend(v)
@@ -125,10 +132,11 @@ class DiskVarArray(object):
     def destroy(self):
         '''
         >>> import numpy as np
-        >>> d = DiskVarArray('/tmp/test5', dtype='uint32')
+        >>> d = DiskVarArray('/tmp/test4', dtype='uint32')
         >>> d.append([1, 2, 3, 4])
-        >>> d.destroy # doctest:+ELLIPSIS   
+        >>> d.destroy # doctest:+ELLIPSIS
         <bound method DiskVarArray.destroy of <diskarray.vararray.DiskVarArray object at 0x...>>
+        >>> shutil.rmtree('/tmp/test4', ignore_errors=True)
         '''
 
         self._data.destroy()
