@@ -86,7 +86,7 @@ Example2:
 
 >>> data = np.array([[(1, 0,  0.), (0, 2,  0.), (0, 2,  0.)], [(1, 0,  0.), (0, 2,  0.), (0, 2,  0.)]], dtype=dtype)
 
->>> da = DiskArray('/tmp/disk.array', shape=(0, 3), capacity=(10, 3), dtype=np.float32)
+>>> da = DiskArray('/tmp/disk.array', shape=(0, 3), capacity=(10, 3), dtype=dtype)
 
 >>> da.extend(data)
 
