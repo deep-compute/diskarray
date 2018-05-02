@@ -31,16 +31,16 @@ class DiskVarArray(object):
             os.makedirs(dpath)
 
         self._data_fpath = os.path.join(dpath, 'data')
-        self._data = DiskArray(self._data_fpath, dtype=dtype,
+        self.data = DiskArray(self._data_fpath, dtype=dtype,
                 mode=mode, growby=growby, log=log)
 
         self._index_fpath = os.path.join(dpath, 'index')
-        self._index = DiskArray(self._index_fpath, dtype=dtype_index,
+        self.index = DiskArray(self._index_fpath, dtype=dtype_index,
                 mode=mode, growby=growby, log=log)
 
     def flush(self):
-        self._data.flush()
-        self._index.flush()
+        self.data.flush()
+        self.index.flush()
 
     @property
     def dtype(self):
@@ -73,14 +73,14 @@ class DiskVarArray(object):
         memmap([1, 2, 3, 4], dtype=uint32)
         >>> shutil.rmtree('/tmp/test1', ignore_errors=True)
         '''
-        sindex = self._index[idx]
+        sindex = self.index[idx]
 
-        if idx == (len(self._index) - 1):
-            eindex = len(self._data)
+        if idx == (len(self.index) - 1):
+            eindex = len(self.data)
         else:
-            eindex = self._index[idx+1]
+            eindex = self.index[idx+1]
 
-        return self._data[sindex:eindex]
+        return self.data[sindex:eindex]
 
     @property
     def num_elements(self):
@@ -92,7 +92,7 @@ class DiskVarArray(object):
         4
         >>> shutil.rmtree('/tmp/test1', ignore_errors=True)
         '''
-        return len(self._data)
+        return len(self.data)
 
     @property
     def num_lists(self):
@@ -107,7 +107,7 @@ class DiskVarArray(object):
         2
         >>> shutil.rmtree('/tmp/test2', ignore_errors=True)
         '''
-        return len(self._index)
+        return len(self.index)
 
     def append(self, v):
         '''
@@ -120,8 +120,8 @@ class DiskVarArray(object):
         memmap([5, 6, 7, 8], dtype=uint32)
         >>> shutil.rmtree('/tmp/test3', ignore_errors=True)
         '''
-        self._index.append(len(self._data))
-        self._data.extend(v)
+        self.index.append(len(self.data))
+        self.data.extend(v)
 
     def extend(self, v):
         # FIXME: assert v properties
@@ -139,8 +139,8 @@ class DiskVarArray(object):
         >>> shutil.rmtree('/tmp/test4', ignore_errors=True)
         '''
 
-        self._data.destroy()
-        self._data = None
+        self.data.destroy()
+        self.data = None
 
-        self._index.destroy()
-        self._index = None
+        self.index.destroy()
+        self.index = None
