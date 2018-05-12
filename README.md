@@ -82,11 +82,11 @@ Example2:
 >>> import numpy as np
 >>> from diskarray import DiskArray
 
->>> dtype = [('token', np.uint32), ('count', np.uint32), ('pmi', np.float32)]
+>>> dtype = [('token', np.uint32), ('count', np.uint32), ('vec', np.float32)]
 
 >>> data = np.array([[(1, 0,  0.), (0, 2,  0.), (0, 2,  0.)], [(1, 0,  0.), (0, 2,  0.), (0, 2,  0.)]], dtype=dtype)
 
->>> da = DiskArray('/tmp/disk.array', shape=(0, 3), capacity=(10, 3), dtype=np.float32)
+>>> da = DiskArray('/tmp/disk.array', shape=(0, 3), capacity=(10, 3), dtype=dtype)
 
 >>> da.extend(data)
 
@@ -99,8 +99,8 @@ Example2:
 # Get the token value at 1th row 2nd column
 >>> print(da[1][2]['token'])
 
-# Modify the pmi value at 1th row 2nd column
->>> da[1][2]['pmi'] = 10.0
+# Modify the vec value at 1th row 2nd column
+>>> da[1][2]['vec'] = 10.0
 ```
 
 #### Using append

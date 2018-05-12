@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1.5'
+version = '0.1.6'
 setup(
     name="diskarray",
     version=version,
@@ -12,8 +12,8 @@ setup(
     download_url="https://github.com/deep-compute/diskarray/tarball/%s" % version,
     license='MIT License',
     install_requires=[
-        'numpy==1.13.1',
-        'basescript==0.2.1'
+        'numpy==1.14.3',
+        'basescript==0.2.5'
     ],
     package_dir={'diskarray': 'diskarray'},
     packages=find_packages('.'),
