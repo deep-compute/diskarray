@@ -22,11 +22,14 @@ class DiskArray(object):
         itemsize = np.dtype(dtype).itemsize
 
         if not os.path.exists(fpath):
-            open(fpath, 'w').write('\x00' * itemsize) # touch file
             if not shape:
                 shape = (0,)
+# FIXME: what if capacity is defined?
             if not capacity:
-                capacity = (1,)
+                capacity = tuple([max(x, 1) for x in shape])
+
+            n_init_capacity = self._shape_bytes(capacity, itemsize)
+            open(fpath, 'w').write('\x00' * n_init_capacity) # touch file
 
         if not shape:
             n = int(os.path.getsize(fpath) / itemsize)
