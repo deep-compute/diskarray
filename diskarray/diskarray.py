@@ -16,7 +16,7 @@ class DiskArray(object):
         >>> import numpy as np
         >>> da = DiskArray('/tmp/test.array', shape=(0, 3), dtype=np.float32)
         >>> print(da[:])
-        []
+        [0.]
         '''
 
         itemsize = np.dtype(dtype).itemsize
@@ -110,9 +110,9 @@ class DiskArray(object):
         >>> data = np.array([[2,3,4], [1, 2, 3]])
         >>> da.append(data[0])
         >>> print(da[:])
-        [[ 2.  3.  4.]
-         [ 0.  0.  0.]
-         [ 0.  0.  0.]]
+        [[2. 3. 4.]
+         [0. 0. 0.]
+         [0. 0. 0.]]
         '''
 
         # FIXME: for now we only support
@@ -142,29 +142,29 @@ class DiskArray(object):
         >>> import numpy as np
         >>> da = DiskArray('/tmp/test.array', shape=(0, 3), capacity=(10, 3), dtype=np.float32)
         >>> print(da[:])
-	[[ 2.  3.  4.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]]
+	[[2. 3. 4.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]]
         >>> data = np.array([[2,3,4], [1, 2, 3]])
         >>> da.extend(data)
         >>> print(da[:])
-	[[ 2.  3.  4.]
-	 [ 1.  2.  3.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]
-	 [ 0.  0.  0.]]
+        [[2. 3. 4.]
+         [1. 2. 3.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]
+         [0. 0. 0.]]
         >>> os.remove('/tmp/test.array')
         '''
 
