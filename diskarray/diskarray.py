@@ -16,17 +16,20 @@ class DiskArray(object):
         >>> import numpy as np
         >>> da = DiskArray('/tmp/test.array', shape=(0, 3), dtype=np.float32)
         >>> print(da[:])
-        [0.]
+        [[0. 0. 0.]]
         '''
 
         itemsize = np.dtype(dtype).itemsize
 
         if not os.path.exists(fpath):
-            open(fpath, 'w').write('\x00' * itemsize) # touch file
             if not shape:
                 shape = (0,)
+            # FIXME: what if capacity is defined?
             if not capacity:
-                capacity = (1,)
+                capacity = tuple([max(x, 1) for x in shape])
+
+            n_init_capacity = self._shape_bytes(capacity, itemsize)
+            open(fpath, 'w').write('\x00' * n_init_capacity) # touch file
 
         if not shape:
             n = int(os.path.getsize(fpath) / itemsize)
@@ -107,9 +110,9 @@ class DiskArray(object):
         >>> data = np.array([[2,3,4], [1, 2, 3]])
         >>> da.append(data[0])
         >>> print(da[:])
-        [[2. 3. 4.]
-         [0. 0. 0.]
-         [0. 0. 0.]]
+	[[2. 3. 4.]
+	 [0. 0. 0.]
+	 [0. 0. 0.]]
         '''
 
         # FIXME: for now we only support
@@ -140,15 +143,15 @@ class DiskArray(object):
         >>> da = DiskArray('/tmp/test.array', shape=(0, 3), capacity=(10, 3), dtype=np.float32)
         >>> print(da[:])
 	[[2. 3. 4.]
-         [0. 0. 0.]
-         [0. 0. 0.]
-         [0. 0. 0.]
-         [0. 0. 0.]
-         [0. 0. 0.]
-         [0. 0. 0.]
-         [0. 0. 0.]
-         [0. 0. 0.]
-         [0. 0. 0.]]
+	 [0. 0. 0.]
+	 [0. 0. 0.]
+	 [0. 0. 0.]
+	 [0. 0. 0.]
+	 [0. 0. 0.]
+	 [0. 0. 0.]
+	 [0. 0. 0.]
+	 [0. 0. 0.]
+	 [0. 0. 0.]]
         >>> data = np.array([[2,3,4], [1, 2, 3]])
         >>> da.extend(data)
         >>> print(da[:])
