@@ -8,6 +8,22 @@ import numpy as np
 from .exception import AppendNotSupported
 
 class DiskArray(object):
+    '''
+    Stores binary data on disk as a memory mapped file
+    using numpy.memmap. Allows for growing the disk data
+    by appending and extending.
+
+    Links:
+    * https://en.wikipedia.org/wiki/Memory-mapped_file
+
+    # FIXME:
+    1. Explain capacity and actual shape
+    2. Explain growby
+    3. Explain not having to specify shape for 1d arrays
+    4. Explain using structured arrays
+    5. Why memory mapping? What does it provide?
+    6. Why not use np.save and np.load?
+    '''
     GROWBY = 10000
 
     def __init__(self, fpath, dtype, mode='r+', shape=None,
@@ -69,10 +85,13 @@ class DiskArray(object):
 
     def _truncate_if_needed(self):
         fd = os.open(self._fpath, os.O_RDWR|os.O_CREAT)
-        dtype_bytes = np.dtype(self._dtype).itemsize
-        nbytes = self._shape_bytes(self._shape, dtype_bytes)
-        os.ftruncate(fd, nbytes)
-        self._capacity_shape = self._shape
+        try:
+            dtype_bytes = np.dtype(self._dtype).itemsize
+            nbytes = self._shape_bytes(self._shape, dtype_bytes)
+            os.ftruncate(fd, nbytes)
+            self._capacity_shape = self._shape
+        finally:
+            os.close(fd)
         self._create_ndarray()
 
     @property
@@ -183,6 +202,11 @@ class DiskArray(object):
     def grow(self, n):
         # FIXME: code
         pass
+
+    def close(self):
+        self.data._mmap.close()
+        del self.data
+        del self._fpath
 
     def truncate(self, n):
         # FIXME: code

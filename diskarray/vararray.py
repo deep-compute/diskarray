@@ -109,6 +109,9 @@ class DiskVarArray(object):
         '''
         return len(self.index)
 
+    def __len__(self):
+        return self.num_lists
+
     def append(self, v):
         '''
         >>> d = DiskVarArray('/tmp/test3', dtype='uint32')
@@ -124,10 +127,12 @@ class DiskVarArray(object):
         self.data.extend(v)
 
     def extend(self, v):
-        # FIXME: assert v properties
-        # FIXME: can we avoid the for loop for perf?
-        for index in enumerate(v):
-            self.append(v[index])
+        lengths = np.cumsum([len(x) for x in v])
+        self.index.append(0)
+        self.index.extend(lengths[:-1])
+
+        vals = np.concatenate(v)
+        self.data.extend(vals)
 
     def destroy(self):
         '''
@@ -144,3 +149,7 @@ class DiskVarArray(object):
 
         self.index.destroy()
         self.index = None
+
+    def close(self):
+        self.data.close()
+        self.index.close()
