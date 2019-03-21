@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1.8'
+version = '0.1.9'
 setup(
     name="diskarray",
     version=version,
@@ -13,7 +13,7 @@ setup(
     license='MIT License',
     install_requires=[
         'numpy==1.14.3',
-        'basescript==0.2.6'
+        'basescript==0.2.9'
     ],
     package_dir={'diskarray': 'diskarray'},
     packages=find_packages('.'),
