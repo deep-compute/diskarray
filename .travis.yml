@@ -1,24 +1,27 @@
-language: python
-python:
-- '3.5'
-install:
-- pip install .
-script:
-- python setup.py test
+before_install:
+- pip3 install black
 deploy:
 - provider: releases
   api_key:
     secure: WUC/4w25ZGvmDRItWZbqFVbRhgTqZIWeHye5enfHFKkrY5tn3RxmwKY3s0qHCna8mp5poe01cIe5eDKHuRoSoJTPsXbSkEp5yoj00mCTB1pByhc1axarmvFIhUiXt23QTi5b13ju6IsPll4/GAAqiAQydhBCDuN5wQEol3ilgEBkTvCVZE3e/AowJBNic/7EHS+UsfS7EOkjtCPMHzFycsUcjG9+1sm24nn7Bxq24iCEaeNZBieN2nSdNPzNUaW0qv07zgGPE87jL/5mek2DGH8gSN0qVNDuus1MCbjrPxDqz3M+LypA1YcspIXA+2geArfWYVvpYEvgF5c89s9M2jnn1UlA8A10s8ZRAUvE0kLsAUMMzQNvQklmV7Vfn/8fCWvsc5tUw4G4nP5K352q+/u4DOJ3YATIMT9uzRwbcLWPRP3UjdniLriY9oJAfImIgQRq5XC0pcbpATaswZgg3Ol6L0Aa/V+b2f0yFp6Hkyy3MNTBlSK2/zNtKvR6HxFC1YZzfXBpgLwzmNZdufxnfhwsiDobb/EjUu5fh6U6kGKk+kxEh3iqx1s6KcIKrMi47RMSmLr79OYKRMS/mBkSgmOFB3wC+B7xE/kuJ+MuecFpJWW0Ifdnm2mu++D8ASTKVzxHooxhv9zIyxZZ/iT1JAHjfku146KkYWZE5FTtkbs=
   name: diskarray-0.1.9
   tag_name: 0.1.9
-  on:
+  true:
     repo: deep-compute/diskarray
 - provider: pypi
-  distributions: "sdist bdist_wheel"
+  distributions: sdist bdist_wheel
   server: https://upload.pypi.org/legacy/
   user: deepcompute
   password:
-    secure: "XScKeAhmF7gGThEjJCtur1RHlGUZ2n3FXukp7619YHmLoUzvszo8Wg+ZSJrdl3soEuSvVQdn2G3ngxAZdKmNhWVYrUKRdKL5iY4WyYHVujkOq+diVqCGHWbSmZJupyscgt1L/H8l+IohC1dnng/ThQuFp7Jbay68lM8LzS20f16JgSL6Xq+jRqqtBU3jALoqf9scnwuXG+Yj51YTQ9DmS37ctlLyzg3GEbICQB1dNaSZ3HtM1LB0/69++rhukzicm1Z9FcNEbdL9U7ohAgrI1+0mj/4xtURIrOwvlKjhjXUxf5S2RMe49xFq4KDRkXL8uwUEvRnskwXH6u0+mkAQRpMYFMygxcmiVhuhhelJD43RuO56o84IWQLAwje/RUeH1huePUNBV63tAXQC1uQ4yoaZs/DehtjDjgIkk/j4xdTnlwaN68icGrnWxZ5QCwZkz16OQ84HolTLGG9X1Fuqs7iYGI9GmBYfSG6FVp6H6E1Cakvc492gAVqIJKln6Y5u8a1SPpHp2jhhqzsMQo/fwqDTc8m59ENX1zxcIgtJjaWrgkJ4U+W4GBosKpevTJCLKzpirsfJ2Al/7E7rTEOpXpw3NNeeyben708/RiPbWVvhE6yZ7Z6XHYzIO+fF9gr0pRiqdL3uL3ASCUlNEBvw5j7adH57foeTf8mZkQqLyrU="
-  on:
-    tags: true
+    secure: XScKeAhmF7gGThEjJCtur1RHlGUZ2n3FXukp7619YHmLoUzvszo8Wg+ZSJrdl3soEuSvVQdn2G3ngxAZdKmNhWVYrUKRdKL5iY4WyYHVujkOq+diVqCGHWbSmZJupyscgt1L/H8l+IohC1dnng/ThQuFp7Jbay68lM8LzS20f16JgSL6Xq+jRqqtBU3jALoqf9scnwuXG+Yj51YTQ9DmS37ctlLyzg3GEbICQB1dNaSZ3HtM1LB0/69++rhukzicm1Z9FcNEbdL9U7ohAgrI1+0mj/4xtURIrOwvlKjhjXUxf5S2RMe49xFq4KDRkXL8uwUEvRnskwXH6u0+mkAQRpMYFMygxcmiVhuhhelJD43RuO56o84IWQLAwje/RUeH1huePUNBV63tAXQC1uQ4yoaZs/DehtjDjgIkk/j4xdTnlwaN68icGrnWxZ5QCwZkz16OQ84HolTLGG9X1Fuqs7iYGI9GmBYfSG6FVp6H6E1Cakvc492gAVqIJKln6Y5u8a1SPpHp2jhhqzsMQo/fwqDTc8m59ENX1zxcIgtJjaWrgkJ4U+W4GBosKpevTJCLKzpirsfJ2Al/7E7rTEOpXpw3NNeeyben708/RiPbWVvhE6yZ7Z6XHYzIO+fF9gr0pRiqdL3uL3ASCUlNEBvw5j7adH57foeTf8mZkQqLyrU=
+  true:
     branch: master
+    tags: true
+install:
+- pip install .
+language: python
+python:
+- '3.5'
+script:
+- black --check .
+- python setup.py test
