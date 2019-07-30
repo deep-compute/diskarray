@@ -7,8 +7,9 @@ import numpy as np
 
 from .exception import AppendNotSupported
 
+
 class DiskArray(object):
-    '''
+    """
     Stores binary data on disk as a memory mapped file
     using numpy.memmap. Allows for growing the disk data
     by appending and extending.
@@ -23,17 +24,26 @@ class DiskArray(object):
     4. Explain using structured arrays
     5. Why memory mapping? What does it provide?
     6. Why not use np.save and np.load?
-    '''
+    """
+
     GROWBY = 10000
 
-    def __init__(self, fpath, dtype, mode='r+', shape=None,
-        capacity=None, growby=GROWBY, log=Logger):
-        '''
+    def __init__(
+        self,
+        fpath,
+        dtype,
+        mode="r+",
+        shape=None,
+        capacity=None,
+        growby=GROWBY,
+        log=Logger,
+    ):
+        """
         >>> import numpy as np
         >>> da = DiskArray('/tmp/test.array', shape=(0, 3), dtype=np.float32)
         >>> print(da[:])
         [[0. 0. 0.]]
-        '''
+        """
 
         itemsize = np.dtype(dtype).itemsize
 
@@ -45,7 +55,7 @@ class DiskArray(object):
                 capacity = tuple([max(x, 1) for x in shape])
 
             n_init_capacity = self._shape_bytes(capacity, itemsize)
-            open(fpath, 'w').write('\x00' * n_init_capacity) # touch file
+            open(fpath, "w").write("\x00" * n_init_capacity)  # touch file
 
         if not shape:
             n = int(os.path.getsize(fpath) / itemsize)
@@ -69,10 +79,9 @@ class DiskArray(object):
         self._create_ndarray()
 
     def _create_ndarray(self):
-        self.data = np.memmap(self._fpath,
-                        shape=self._capacity_shape,
-                        dtype=self._dtype,
-                        mode=self._mode)
+        self.data = np.memmap(
+            self._fpath, shape=self._capacity_shape, dtype=self._dtype, mode=self._mode
+        )
         if self._shape is None:
             self._shape = self.data.shape
 
@@ -84,7 +93,7 @@ class DiskArray(object):
         return reduce((lambda x, y: x * y), shape) * dtype_bytes
 
     def _truncate_if_needed(self):
-        fd = os.open(self._fpath, os.O_RDWR|os.O_CREAT)
+        fd = os.open(self._fpath, os.O_RDWR | os.O_CREAT)
         try:
             dtype_bytes = np.dtype(self._dtype).itemsize
             nbytes = self._shape_bytes(self._shape, dtype_bytes)
@@ -121,7 +130,7 @@ class DiskArray(object):
         return tuple(_s)
 
     def append(self, v):
-        '''
+        """
         >>> import numpy as np
         >>> da = DiskArray('/tmp/test.array', shape=(0, 3), growby=3, dtype=np.float32)
         >>> print(da[:])
@@ -132,7 +141,7 @@ class DiskArray(object):
 	[[2. 3. 4.]
 	 [0. 0. 0.]
 	 [0. 0. 0.]]
-        '''
+        """
 
         # FIXME: for now we only support
         # append along axis 0 and only
@@ -157,7 +166,7 @@ class DiskArray(object):
         self._shape = self._incr_shape(self._shape, 1)
 
     def extend(self, v):
-        '''
+        """
         >>> import numpy as np
         >>> da = DiskArray('/tmp/test.array', shape=(0, 3), capacity=(10, 3), dtype=np.float32)
         >>> print(da[:])
@@ -185,7 +194,7 @@ class DiskArray(object):
          [0. 0. 0.]
          [0. 0. 0.]]
         >>> os.remove('/tmp/test.array')
-        '''
+        """
 
         nrows = self._shape[0]
         nrows_capacity = self._capacity_shape[0]
@@ -196,7 +205,7 @@ class DiskArray(object):
             self._capacity_shape = self._incr_shape(self._capacity_shape, diff)
             self._update_ndarray()
 
-        self.data[nrows:nrows+len(v)] = v
+        self.data[nrows : nrows + len(v)] = v
         self._shape = self._incr_shape(self._shape, len(v))
 
     def grow(self, n):
