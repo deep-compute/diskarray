@@ -2,8 +2,8 @@ deploy:
 - provider: releases
   api_key:
     secure: WUC/4w25ZGvmDRItWZbqFVbRhgTqZIWeHye5enfHFKkrY5tn3RxmwKY3s0qHCna8mp5poe01cIe5eDKHuRoSoJTPsXbSkEp5yoj00mCTB1pByhc1axarmvFIhUiXt23QTi5b13ju6IsPll4/GAAqiAQydhBCDuN5wQEol3ilgEBkTvCVZE3e/AowJBNic/7EHS+UsfS7EOkjtCPMHzFycsUcjG9+1sm24nn7Bxq24iCEaeNZBieN2nSdNPzNUaW0qv07zgGPE87jL/5mek2DGH8gSN0qVNDuus1MCbjrPxDqz3M+LypA1YcspIXA+2geArfWYVvpYEvgF5c89s9M2jnn1UlA8A10s8ZRAUvE0kLsAUMMzQNvQklmV7Vfn/8fCWvsc5tUw4G4nP5K352q+/u4DOJ3YATIMT9uzRwbcLWPRP3UjdniLriY9oJAfImIgQRq5XC0pcbpATaswZgg3Ol6L0Aa/V+b2f0yFp6Hkyy3MNTBlSK2/zNtKvR6HxFC1YZzfXBpgLwzmNZdufxnfhwsiDobb/EjUu5fh6U6kGKk+kxEh3iqx1s6KcIKrMi47RMSmLr79OYKRMS/mBkSgmOFB3wC+B7xE/kuJ+MuecFpJWW0Ifdnm2mu++D8ASTKVzxHooxhv9zIyxZZ/iT1JAHjfku146KkYWZE5FTtkbs=
-  name: diskarray-0.1.9
-  tag_name: 0.1.9
+  name: diskarray-0.2.0
+  tag_name: 0.2.0
   true:
     repo: deep-compute/diskarray
 - provider: pypi
@@ -19,7 +19,7 @@ install:
 - pip install .
 language: python
 python:
-- '3.5'
+- '3.8'
 script:
 - docker run -v $(pwd):/app deepcompute/black:python-black-latest --check .
 - python setup.py test
