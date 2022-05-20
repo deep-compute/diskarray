@@ -8,10 +8,13 @@ This module also supports appending your numpy arrays to disk array at any time.
 
 ## Installation
 
-> Prerequisites: Python
+> Prerequisites: Python(">=3.8.0")
 
 ```bash
 $ sudo pip install diskarray
+
+# One can use older version of diskarray for Python("<3.8.0")
+# Eg: sudo pip install diskarray==0.1.9
 ```
 
 ## Quick Example
